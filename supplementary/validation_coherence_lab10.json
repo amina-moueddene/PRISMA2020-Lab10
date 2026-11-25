@@ -1,0 +1,319 @@
+{
+  "status": "VALIDATED",
+  "checks_passed": 44,
+  "checks_total": 44,
+  "total_studies": 22,
+  "total_reports": 23,
+  "prisma_flow": {
+    "identified": 215,
+    "duplicates": 72,
+    "screened": 143,
+    "ta_excluded": 90,
+    "sought": 53,
+    "not_retrieved": 15,
+    "assessed": 38,
+    "ft_excluded": 15,
+    "reports_included": 23,
+    "studies_included": 22
+  },
+  "checks": [
+    {
+      "élément": "Notices identifiées",
+      "valeur_recalculée": 215,
+      "texte_attendu": "215 records",
+      "présent": true
+    },
+    {
+      "élément": "Doublons",
+      "valeur_recalculée": 72,
+      "texte_attendu": "72 duplicates",
+      "présent": true
+    },
+    {
+      "élément": "Notices examinées",
+      "valeur_recalculée": 143,
+      "texte_attendu": "143 unique records were screened",
+      "présent": true
+    },
+    {
+      "élément": "Exclues titre/résumé",
+      "valeur_recalculée": 90,
+      "texte_attendu": "90 were excluded",
+      "présent": true
+    },
+    {
+      "élément": "Exclusion titre/résumé E2",
+      "valeur_recalculée": 36,
+      "texte_attendu": "(E2, $n=36$)",
+      "présent": true
+    },
+    {
+      "élément": "Exclusion titre/résumé E3",
+      "valeur_recalculée": 17,
+      "texte_attendu": "(E3, 17)",
+      "présent": true
+    },
+    {
+      "élément": "Exclusion titre/résumé E7",
+      "valeur_recalculée": 14,
+      "texte_attendu": "(E7, 14)",
+      "présent": true
+    },
+    {
+      "élément": "Exclusion titre/résumé E4",
+      "valeur_recalculée": 12,
+      "texte_attendu": "(E4, 12)",
+      "présent": true
+    },
+    {
+      "élément": "Exclusion titre/résumé E6",
+      "valeur_recalculée": 11,
+      "texte_attendu": "(E6, 11)",
+      "présent": true
+    },
+    {
+      "élément": "Rapports recherchés",
+      "valeur_recalculée": 53,
+      "texte_attendu": "53 reports sought",
+      "présent": true
+    },
+    {
+      "élément": "Non obtenus",
+      "valeur_recalculée": 15,
+      "texte_attendu": "15 could not be obtained",
+      "présent": true
+    },
+    {
+      "élément": "Textes intégraux évalués",
+      "valeur_recalculée": 38,
+      "texte_attendu": "38 full texts assessed",
+      "présent": true
+    },
+    {
+      "élément": "Exclusions texte intégral",
+      "valeur_recalculée": 15,
+      "texte_attendu": "15 further exclusions",
+      "présent": true
+    },
+    {
+      "élément": "Exclusion texte intégral E4",
+      "valeur_recalculée": 5,
+      "texte_attendu": "(E4)",
+      "présent": true
+    },
+    {
+      "élément": "Exclusion texte intégral E3",
+      "valeur_recalculée": 5,
+      "texte_attendu": "(E3)",
+      "présent": true
+    },
+    {
+      "élément": "Exclusion texte intégral E5",
+      "valeur_recalculée": 5,
+      "texte_attendu": "(E5)",
+      "présent": true
+    },
+    {
+      "élément": "Rapports / études inclus",
+      "valeur_recalculée": [
+        23,
+        22
+      ],
+      "texte_attendu": "Twenty-three reports, corresponding to 22 studies",
+      "présent": true
+    },
+    {
+      "élément": "Articles / communications",
+      "valeur_recalculée": [
+        19,
+        3
+      ],
+      "texte_attendu": "19 were journal articles and 3 conference papers",
+      "présent": true
+    },
+    {
+      "élément": "Accord re-sélection à l'aveugle",
+      "valeur_recalculée": 124,
+      "texte_attendu": "124 of the 143 records",
+      "présent": true
+    },
+    {
+      "élément": "Kappa de Cohen",
+      "valeur_recalculée": 0.7,
+      "texte_attendu": "\\kappa=0.70",
+      "présent": true
+    },
+    {
+      "élément": "Plateformes",
+      "valeur_recalculée": {
+        "Satellite": 10,
+        "UAV": 7,
+        "Airborne": 5
+      },
+      "texte_attendu": "Satellites were used in 10 studies, UAV in 7 and piloted aircraft in 5",
+      "présent": true
+    },
+    {
+      "élément": "Modalités",
+      "valeur_recalculée": {
+        "Multispectral": 11,
+        "Multimodal": 6,
+        "RGB": 3,
+        "Hyperspectral": 2
+      },
+      "texte_attendu": "most common modality (11 studies), followed by multimodal data (6)",
+      "présent": true
+    },
+    {
+      "élément": "Familles d'IA",
+      "valeur_recalculée": {
+        "Classical ML": 18,
+        "Deep learning": 4
+      },
+      "texte_attendu": "Classical machine learning was used in 18 studies and deep learning in 4",
+      "présent": true
+    },
+    {
+      "élément": "Pathogènes vasculaires",
+      "valeur_recalculée": 11,
+      "texte_attendu": "Vascular pathogens were the most frequent target (11 studies)",
+      "présent": true
+    },
+    {
+      "élément": "Référence qPCR/PCR",
+      "valeur_recalculée": 3,
+      "texte_attendu": "qPCR or PCR in three studies",
+      "présent": true
+    },
+    {
+      "élément": "Niveau V2",
+      "valeur_recalculée": 8,
+      "texte_attendu": "Eight used an internal split",
+      "présent": true
+    },
+    {
+      "élément": "Niveau V4",
+      "valeur_recalculée": 3,
+      "texte_attendu": "Three tested transfer explicitly (V4)",
+      "présent": true
+    },
+    {
+      "élément": "DRL2",
+      "valeur_recalculée": 11,
+      "texte_attendu": "Eleven studies reached DRL2",
+      "présent": true
+    },
+    {
+      "élément": "DRL3/DRL4",
+      "valeur_recalculée": [
+        8,
+        3
+      ],
+      "texte_attendu": "eight reached DRL3 (several sites or seasons) and three reached DRL4",
+      "présent": true
+    },
+    {
+      "élément": "Score QA médian et IQR",
+      "valeur_recalculée": [
+        10.5,
+        9.0,
+        14.0
+      ],
+      "texte_attendu": "median 10.5, interquartile range 9--14",
+      "présent": true
+    },
+    {
+      "élément": "Score QA étendue",
+      "valeur_recalculée": [
+        4,
+        18
+      ],
+      "texte_attendu": "ranged from 4 to 18",
+      "présent": true
+    },
+    {
+      "élément": "Études QA ≥ 10",
+      "valeur_recalculée": 12,
+      "texte_attendu": "12 of the 22 studies scored at least 10",
+      "présent": true
+    },
+    {
+      "élément": "QA médian DL / ML",
+      "valeur_recalculée": {
+        "Classical ML": 12.0,
+        "Deep learning": 8.5
+      },
+      "texte_attendu": "Median scores were 8.5 for deep-learning studies and 12 for classical",
+      "présent": true
+    },
+    {
+      "élément": "Études avec OA/accuracy",
+      "valeur_recalculée": 12,
+      "texte_attendu": "Among the 12 studies reporting",
+      "présent": true
+    },
+    {
+      "élément": "Spearman performance/validation",
+      "valeur_recalculée": [
+        -0.7,
+        0.011
+      ],
+      "texte_attendu": "\\rho=-0.70$, $p=0.011",
+      "présent": true
+    },
+    {
+      "élément": "χ² plateforme × cible",
+      "valeur_recalculée": 17.7,
+      "texte_attendu": "\\chi^2=17.7",
+      "présent": true
+    },
+    {
+      "élément": "p de permutation",
+      "valeur_recalculée": 0.002,
+      "texte_attendu": "p=0.002",
+      "présent": true
+    },
+    {
+      "élément": "V de Cramér (0,6348 → 0,63)",
+      "valeur_recalculée": 0.6348,
+      "texte_attendu": "V=0.63$",
+      "présent": true
+    },
+    {
+      "élément": "Figure figures/Fig1_PRISMA_flow.pdf",
+      "valeur_recalculée": true,
+      "texte_attendu": "figures/Fig1_PRISMA_flow.pdf",
+      "présent": true
+    },
+    {
+      "élément": "Figure figures/Fig2_years_countries.pdf",
+      "valeur_recalculée": true,
+      "texte_attendu": "figures/Fig2_years_countries.pdf",
+      "présent": true
+    },
+    {
+      "élément": "Figure figures/Fig3_platform_target.pdf",
+      "valeur_recalculée": true,
+      "texte_attendu": "figures/Fig3_platform_target.pdf",
+      "présent": true
+    },
+    {
+      "élément": "Figure figures/Fig4_performance_vs_validation.pdf",
+      "valeur_recalculée": true,
+      "texte_attendu": "figures/Fig4_performance_vs_validation.pdf",
+      "présent": true
+    },
+    {
+      "élément": "Figure figures/Fig5_quality_heatmap.pdf",
+      "valeur_recalculée": true,
+      "texte_attendu": "figures/Fig5_quality_heatmap.pdf",
+      "présent": true
+    },
+    {
+      "élément": "Figure figures/Fig6_validation_deployment.pdf",
+      "valeur_recalculée": true,
+      "texte_attendu": "figures/Fig6_validation_deployment.pdf",
+      "présent": true
+    }
+  ]
+}

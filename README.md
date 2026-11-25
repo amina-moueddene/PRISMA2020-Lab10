@@ -1,60 +1,72 @@
-# Titre : 
-Machine learning et télédétection pour la détection des maladies et du stress de l'olivier (Olea europaea L.) : une revue systématique des plateformes, cibles, algorithmes et pratiques de validation.
+# Lab 10 : Rédiger et valider une revue systématique selon PRISMA 2020
 
-# Abstract (Résumé Structuré)
-* **Objectif :** Cette revue systématique évalue l'utilisation du Machine Learning (ML) appliqué à l'imagerie par satellite, avion et drone (UAV) pour la détection des maladies (notamment *Xylella fastidiosa* et *Verticillium dahliae*) et du stress hydrique chez l'olivier, en analysant la fiabilité des méthodes de validation.
-* **Méthodes :** Conformément aux lignes directrices PRISMA 2020, nous avons interrogé Scopus et Web of Science Core Collection (2013-2026). Sur 215 articles identifiés, 143 uniques ont été criblés. Après filtrage sur titre/résumé puis évaluation du texte intégral, 22 études primaires (23 rapports) ont été incluses.
-* **Résultats :** Une forte association existe entre la plateforme et la cible. L'imagerie aéroportée hyperspectrale/thermique est utilisée pour les pathogènes vasculaires (11 études), tandis que les satellites multispectraux ciblent majoritairement le stress hydrique (7 études). Le DL est confiné à l'imagerie RGB par UAV pour les symptômes foliaires visibles. Les taux de précision rapportés sont souvent très élevés (médiane > 90% pour les splits internes), mais chutent drastiquement lors des 3 seuls tests de transfert géographique ou temporel identifiés.
-* **Conclusion :** Bien que prometteuses, les solutions actuelles souffrent de validations surestimées par des fuites de données (data leakage) et d'une incapacité à distinguer l'infection vasculaire du déficit hydrique. Des protocoles de validation externes rigoureux sont nécessaires avant tout déploiement opérationnel.
+**Manuscrit (anglais) :** *Machine learning and remote sensing for disease and stress detection in olive (Olea europaea L.): a systematic review of platforms, targets, algorithms and validation practice*
+**Corpus :** 22 études (23 rapports) incluses après évaluation du texte intégral ; Scopus et Web of Science Core Collection, recherche du 15 novembre 2026, période 2013–2026.
+
+Le manuscrit est rédigé en anglais au format de la classe Elsevier `elsarticle`, prêt à compiler sur Overleaf. Ses chiffres clés sont recalculés depuis les fichiers supplémentaires S1–S5 par `scripts/validate_manuscript_coherence.py`.
 
 ---
 
-# 1. Introduction
-* **Contexte :** L'oléiculture, concentrée dans le bassin méditerranéen, est gravement menacée par des pathogènes vasculaires (comme *Xylella fastidiosa* et *Verticillium dahliae*) et par l'augmentation des épisodes de sécheresse. L'imagerie aérienne couplée à l'IA offre une solution non destructive de surveillance à grande échelle.
-* **Problématique :** De nombreuses études annoncent des taux de précision très élevés. Cependant, les algorithmes de Machine Learning sont sensibles aux fuites de données (data leakage), et les symptômes physiques du déficit hydrique miment souvent ceux de l'infection vasculaire (fermeture stomatique).
-* **Objectifs :** (RQ1) Identifier les cibles et références. (RQ2) Analyser les capteurs et plateformes utilisés. (RQ3) Identifier les méthodes d'IA. (RQ4) Évaluer la rigueur des protocoles de validation et le risque de biais. (RQ5) Évaluer le niveau de préparation au déploiement (DRL).
+## 1. Prérequis
 
----
+* Python ≥ 3.10 avec `pandas`, `numpy`, `scipy` (`pip install pandas numpy scipy`).
+* Pour recompiler le manuscrit : `pdflatex` et `bibtex` (TeX Live), ou Overleaf. Pour la copie Markdown : `pandoc`.
 
-# 2. Méthodes
-* **Protocole :** Revue systématique réalisée selon PRISMA 2020. *(Note d'édition : insérer ici la mention de l'enregistrement PROSPERO/OSF si applicable).*
-* **Sources :** Scopus (TITLE-ABS-KEY) et Web of Science Core Collection (TS). Recherche effectuée le 15 novembre 2026 pour la période 2013-2026.
-* **Search Strings :** Équation en 4 blocs (culture AND plateforme AND cible AND méthode) documentée dans les *Supplementary Materials*.
-* **Sélection :** Déduplication par DOI normalisé (70 retirés) et titre (2 retirés). Screening assisté par IA générative avec vérification manuelle complète (Accord relecture en aveugle : 86,7%, $\kappa$ = 0,70).
-* **Extraction et Qualité :** Grille d'extraction ciblant le contexte, les capteurs, les méthodes ML/DL, la validation (V0-V5) et le déploiement (DRL1-5). Évaluation de la qualité sur 10 critères (Q1-Q10).
+## 2. Architecture du dépôt
 
----
+```text
+PRISMA2020-Lab10-main/
+├── README.md
+├── manuscript/
+│   ├── systematic_review_prisma2020.tex      # Manuscrit de référence (elsarticle, anglais)
+│   ├── refs_included.bib                     # Bibliographie (études incluses et références méthodologiques)
+│   ├── systematic_review_prisma2020.pdf      # Version compilée (classe d'aperçu, voir § 4)
+│   └── systematic_review_prisma2020.md       # Copie Markdown lisible sur GitHub (générée depuis le .tex)
+├── figures/                                  # Figures du manuscrit, en PDF (LaTeX) et PNG (Markdown)
+│   ├── Fig1_PRISMA_flow                      # Diagramme de flux PRISMA 2020 (Fig. 2 du PDF)
+│   ├── Fig2_years_countries                  # Études par année et plateforme ; pays (Fig. 3)
+│   ├── Fig3_platform_target                  # Plateforme × cible, résidus ajustés (Fig. 4)
+│   ├── Fig4_performance_vs_validation        # Performance rapportée par niveau de validation (Fig. 5)
+│   ├── Fig6_validation_deployment            # Niveaux V0–V5 et DRL1–5 (Fig. 6)
+│   └── Fig5_quality_heatmap                  # Heatmap Q1–Q10 (Fig. 7)
+├── supplementary/
+│   ├── S1_screening_ledger.csv               # 143 notices : décision assistée, code, motif, re-sélection à l'aveugle
+│   ├── S2_fulltext_eligibility.csv           # 53 rapports recherchés : obtention, décision, motif d'exclusion
+│   ├── S3_fulltext_extraction_22_studies.csv # Extraction du texte intégral
+│   ├── S4_quality_assessment_Q1-Q10.csv      # Scores Q1–Q10 (/20)
+│   ├── S5_studies_master_v2.csv              # Données codées (plateforme, cible, V, DRL, scénarios, performance)
+│   ├── lab8_consolidated_extraction_qa.csv   # S3 + S4 fusionnés (Lab 8)
+│   ├── tableau_comparatif.csv, statistiques_performances.csv, limitations_frequentes.csv,
+│   │   potential_gaps.csv, synthese_lab9.json # Sorties du Lab 9
+│   ├── checklist_prisma2020_27items.md       # Checklist PRISMA 2020 (27 items et sous-items)
+│   ├── verification_finale_lab10.md          # Tableau de validation, questions et défis 1–2
+│   └── validation_coherence_lab10.json       # Rapport d'audit automatique
+├── scripts/
+│   ├── validate_manuscript_coherence.py      # Audit texte ↔ données ↔ figures (44 vérifications)
+│   ├── build_manuscript.sh                   # Compile le .tex en PDF (pdflatex + bibtex)
+│   ├── tex_to_markdown.py                    # Régénère la copie Markdown depuis le .tex
+│   └── latex_preview/                        # Classe d'aperçu utilisée seulement si elsarticle n'est pas installé
+└── tests/
+    └── test_lab10.py                         # 7 tests : livrables, S1–S5, figures, citations, audit, checklist
+```
 
-# 3. Résultats
-## 3.1. Sélection des études (Flux PRISMA)
-* Identifiés : 215 (Scopus 118, WoS 97).
-* Uniques après déduplication : 143.
-* Exclus sur Titre/Résumé : 90 (dont 36 hors-sujet végétal, 17 sans stress ciblé).
-* Non retrouvés : 15.
-* Évalués en texte intégral : 38.
-* Exclus en texte intégral : 15 (dont 5 sans modèle d'apprentissage).
-* **Inclus finaux :** 22 études primaires (via 23 rapports).
+## 3. Exécution
 
-## 3.2. Caractéristiques par RQ (Sélection)
-* **RQ2 (Plateformes) :** Satellites (10), UAV (7), Aéroportés (5).
-* **RQ1/RQ3 (Cibles et Méthodes) :** Pathogènes vasculaires (11), Stress hydrique (7). Le ML classique est dominant (18/22). Le Deep Learning (4/22) est exclusivement utilisé avec des drones (UAV) sur des images RGB.
-* **RQ4 (Validation) :** La majorité des études ne dépassent pas la validation interne (V1: 2 études, V2: 8 études, V3: 8 études). Seulement 3 études atteignent le niveau V4 (Test de transfert explicite). Le score de qualité (QA) médian est de 10,5/20.
+```bash
+python3 scripts/validate_manuscript_coherence.py   # -> VALIDATED : 44/44
+python3 -m unittest discover -s tests -v           # -> 7 tests OK
+bash scripts/build_manuscript.sh                   # optionnel : recompile le PDF
+python3 scripts/tex_to_markdown.py                 # optionnel : régénère la copie Markdown
+```
 
----
+## 4. Compilation du manuscrit
 
-# 4. Discussion : Tendances, Limitations et Gaps
-* **Tendances :** Spécialisation des plateformes : hyperspectral aéroporté pour la maladie vasculaire, satellite pour le stress hydrique, drone RGB pour les symptômes foliaires.
-* **Limitations des études :** Forte suspicion de *Data Leakage* (14 études sur 22, ex: pixels voisins dans le train/test split). Vérité terrain souvent faible pour le DL (pas de tests qPCR).
-* **Research Gaps :** 
-  1. *Spécificité du signal :* Aucune étude n'a utilisé un plan factoriel pour séparer l'infection pathogène du simple déficit hydrique.
-  2. *Validation externe :* Les modèles s'effondrent lors des transferts géographiques inter-zones (ex: rappel chutant à 10% dans l'étude D'Addabbo et al. 2025).
+* **Overleaf (recommandé pour la soumission) :** importer `manuscript/` et `figures/` dans un même projet, garder l'arborescence (le `.tex` lit les figures via `\graphicspath{{../}}`, ou déplacer `figures/` à côté du `.tex` et supprimer cette ligne). La classe `elsarticle` y est disponible.
+* **En local :** `scripts/build_manuscript.sh` utilise `elsarticle` si elle est installée ; sinon, il bascule sur une classe d'aperçu minimale (`scripts/latex_preview/`). Cette classe reproduit la zone de texte du gabarit Elsevier « preprint, 12pt » (police 12 pt, texte de 393 × 576 pt), d'où le même nombre de pages (64). Le contenu est identique ; seuls l'en-tête de première page et l'ordre de numérotation de quelques références (style `plainnat` au lieu de `elsarticle-num-names`) diffèrent. Le PDF fourni a été produit ainsi ; pour la soumission, compiler sur Overleaf avec la vraie classe.
 
----
+## 5. Chiffres clés
 
-# 5. Limitations de la Revue
-La revue a été menée principalement par un seul relecteur (avec un audit en aveugle $\kappa=0,70$), ce qui dévie du standard PRISMA à double relecture indépendante. De plus, 15 rapports n'ont pu être récupérés en texte intégral. Des bases importantes en ingénierie comme IEEE Xplore n'ont pas été incluses dans le flux principal.
-
----
-
-# 6. Conclusion
-Le ML couplé à la télédétection offre un potentiel immense pour la surveillance de l'olivier. Cependant, la fiabilité clinique des modèles actuels est largement surestimée par des pratiques de validation internes (splits aléatoires). Les futures recherches doivent imposer des tests de transferts inter-saisons et inter-vergers, et clarifier la distinction spectrale entre maladie vasculaire et stress hydrique avant d'envisager des applications opérationnelles.
+* **Flux PRISMA :** 215 notices (Scopus 118, WoS 97) → 72 doublons → 143 examinées → 90 exclues → 53 recherchées → 15 non obtenues → 38 évaluées → 15 exclues → 23 rapports / 22 études (19 articles, 3 communications). Re-sélection à l'aveugle : 124/143 concordantes, κ = 0,70.
+* **Corpus :** satellite 10, UAV 7, avion 5 ; multispectral 11, multimodal 6, RGB 3, hyperspectral 2 ; pathogènes vasculaires 11, stress hydrique 7, foliaire 2, mixte 2 ; ML classique 18, deep learning 4.
+* **Preuves :** V0 1, V1 2, V2 8, V3 8, V4 3, V5 0 ; DRL2 11, DRL3 8, DRL4 3 ; QA médiane 10,5/20 (IQR 9–14) ; précision et validation : ρ = −0,70 ; plateforme × cible : χ² = 17,7, p = 0,002, V = 0,63.
+* **Corrections par rapport à la version précédente de la revue :** titre « systematic mapping » → « systematic review » (item PRISMA 1) ; V de Cramér du scénario A = 0,63 (au lieu de 0,64) et V corrigé du scénario B = 0,51 (au lieu de 0,52), recalculés depuis S5.
