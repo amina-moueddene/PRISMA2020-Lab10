@@ -1,10 +1,14 @@
-"""Tests du Lab 10 : présence des livrables, cohérence des données et du manuscrit."""
+"""Tests du Lab 10 : présence des livrables, résolution 300 dpi, reproductibilité et cohérence."""
 import json
 import re
+import subprocess
+import sys
+import tempfile
 import unittest
 from pathlib import Path
 
 import pandas as pd
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
 MAN = ROOT / "manuscript"
@@ -13,29 +17,65 @@ TEX = (MAN / "systematic_review_prisma2020.tex").read_text(encoding="utf-8")
 
 class TestLab10Submission(unittest.TestCase):
     def test_manuscript_files_exist(self):
-        for rel in ["manuscript/systematic_review_prisma2020.tex", "manuscript/systematic_review_prisma2020.pdf",
-                    "manuscript/systematic_review_prisma2020.md", "manuscript/refs_included.bib",
-                    "supplementary/checklist_prisma2020_27items.md", "supplementary/verification_finale_lab10.md",
-                    "supplementary/validation_coherence_lab10.json"]:
+        for rel in [
+            "README.md",
+            "requirements.txt",
+            "manuscript/systematic_review_prisma2020.tex",
+            "manuscript/systematic_review_prisma2020.pdf",
+            "manuscript/systematic_review_prisma2020.md",
+            "manuscript/refs_included.bib",
+            "supplementary/checklist_prisma2020_27items.md",
+            "supplementary/verification_finale_lab10.md",
+            "supplementary/validation_coherence_lab10.json",
+            "scripts/generate_figures.py",
+            "scripts/validate_manuscript_coherence.py",
+        ]:
             p = ROOT / rel
             self.assertTrue(p.exists(), f"Manquant : {rel}")
-            self.assertGreater(p.stat().st_size, 300, f"Trop court : {rel}")
+            self.assertGreater(p.stat().st_size, 50, f"Trop court : {rel}")
+
+    def test_readme_completeness(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertGreater(len(readme), 5000, "README.md doit être détaillé (> 5000 caractères)")
+        for kw in ["PRISMA 2020", "RQ1", "RQ5", "validate_manuscript_coherence.py", "generate_figures.py", "Fig1_PRISMA_flow"]:
+            self.assertIn(kw, readme, f"Mot-clé absent du README : {kw}")
 
     def test_supplementary_data_s1_to_s5(self):
-        expected = {"S1_screening_ledger.csv": 143, "S2_fulltext_eligibility.csv": 53,
-                    "S3_fulltext_extraction_22_studies.csv": 22, "S4_quality_assessment_Q1-Q10.csv": 22,
-                    "S5_studies_master_v2.csv": 22}
+        expected = {
+            "S1_screening_ledger.csv": 143,
+            "S2_fulltext_eligibility.csv": 53,
+            "S3_fulltext_extraction_22_studies.csv": 22,
+            "S4_quality_assessment_Q1-Q10.csv": 22,
+            "S5_studies_master_v2.csv": 22,
+        }
         for fname, n in expected.items():
             df = pd.read_csv(ROOT / "supplementary" / fname, encoding="utf-8-sig")
             self.assertEqual(len(df), n, fname)
 
-    def test_every_included_figure_exists(self):
+    def test_every_included_figure_exists_and_300dpi(self):
         figs = re.findall(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}", TEX)
         self.assertEqual(len(figs), 6)
         for fig in figs:
-            self.assertTrue((ROOT / fig).exists(), f"Figure manquante : {fig}")
-            png = (ROOT / fig).with_suffix(".png")
-            self.assertTrue(png.exists() and png.stat().st_size > 20000, f"PNG manquant : {png.name}")
+            pdf_path = ROOT / fig
+            self.assertTrue(pdf_path.exists(), f"Figure PDF manquante : {fig}")
+            png_path = pdf_path.with_suffix(".png")
+            self.assertTrue(png_path.exists() and png_path.stat().st_size > 20000, f"Figure PNG manquante : {png_path.name}")
+            with Image.open(png_path) as im:
+                dpi_x, dpi_y = im.info.get("dpi", (0, 0))
+                self.assertGreaterEqual(round(dpi_x), 300, f"DPI insuffisant pour {png_path.name}: {dpi_x}")
+                self.assertGreaterEqual(round(dpi_y), 300, f"DPI insuffisant pour {png_path.name}: {dpi_y}")
+
+    def test_reproducible_figure_generation_script(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            res = subprocess.run(
+                [sys.executable, str(ROOT / "scripts" / "generate_figures.py"), "--output-dir", tmpdir],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            self.assertIn("Generated 12 figure files", res.stdout)
+            generated = list(Path(tmpdir).glob("Fig*.*"))
+            self.assertEqual(len(generated), 12)
 
     def test_every_citation_is_in_bibliography(self):
         bib = (MAN / "refs_included.bib").read_text(encoding="utf-8")
@@ -46,6 +86,7 @@ class TestLab10Submission(unittest.TestCase):
     def test_validation_report_status(self):
         rep = json.loads((ROOT / "supplementary" / "validation_coherence_lab10.json").read_text(encoding="utf-8"))
         self.assertEqual(rep["status"], "VALIDATED")
+        self.assertEqual(rep["checks_passed"], 44)
         self.assertEqual(rep["total_studies"], 22)
         self.assertEqual(rep["prisma_flow"]["identified"], 215)
         self.assertEqual(rep["prisma_flow"]["screened"], 143)
